@@ -5,10 +5,12 @@ import { BackgroundRemover } from './components/tools/BackgroundRemover';
 import { QuickEditor } from './components/tools/QuickEditor';
 import { PdfManager } from './components/tools/PdfManager';
 import { Scanner } from './components/tools/Scanner';
-import { Image, Eraser, FileText, Sun, Camera } from 'lucide-react';
+import { Magnifier } from './components/tools/Magnifier';
+import { SignaturePad } from './components/tools/SignaturePad';
+import { Image, Eraser, FileText, Sun, Camera, Search, PenTool } from 'lucide-react';
 import { cn } from './utils/cn';
 
-type Tool = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner';
+type Tool = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature';
 
 function App() {
   const [activeTool, setActiveTool] = useState<Tool>('home');
@@ -19,6 +21,8 @@ function App() {
     { id: 'converter', name: 'Cambiar Formato', icon: Image, desc: 'Prepara tu foto para enviarla reduciendo su peso.' },
     { id: 'pdf', name: 'Documentos PDF', icon: FileText, desc: 'Junta varios documentos en uno solo de forma sencilla.' },
     { id: 'scanner', name: 'Escanear', icon: Camera, desc: 'Haz una foto a un documento y guárdalo como PDF.' },
+    { id: 'magnifier', name: 'Lupa', icon: Search, desc: 'Acerca la letra pequeña de una foto para leerla bien.' },
+    { id: 'signature', name: 'Crear Firma', icon: PenTool, desc: 'Firma con el dedo y guarda tu firma sin fondo.' },
   ] as const;
 
   const renderTool = () => {
@@ -28,6 +32,8 @@ function App() {
       case 'editor': return <QuickEditor onBack={() => setActiveTool('home')} />;
       case 'pdf': return <PdfManager onBack={() => setActiveTool('home')} />;
       case 'scanner': return <Scanner onBack={() => setActiveTool('home')} />;
+      case 'magnifier': return <Magnifier onBack={() => setActiveTool('home')} />;
+      case 'signature': return <SignaturePad onBack={() => setActiveTool('home')} />;
       default: return null;
     }
   };
