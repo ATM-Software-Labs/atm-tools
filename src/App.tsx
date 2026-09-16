@@ -106,7 +106,7 @@ function App() {
           </div>
 
           {/* Controls Bar trujillo-guides mirror */}
-          <div className="block mb-5">
+          <div className="block mb-6">
             <label className="block w-full">
               <input 
                 type="search" 
@@ -115,92 +115,104 @@ function App() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoComplete="off"
                 spellCheck="false"
-                className="w-full max-w-full bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] placeholder:text-slate-500 text-base px-4 py-3 rounded-xl shadow-sm focus:outline-none focus:border-blue-600 transition-colors"
+                className="w-full max-w-full bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] placeholder:text-slate-400 dark:placeholder:text-slate-500 text-base px-4 py-3 rounded-xl shadow-sm focus:outline-none focus:border-blue-600 transition-colors"
               />
             </label>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 mb-8">
-            <select 
-              className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer"
-              value={activeFilter} 
-              onChange={(e) => setActiveFilter(e.target.value as any)}
-            >
-              <option value={lang === 'ES' ? 'Todas' : 'All'}>{lang === 'ES' ? 'Todas' : 'All'}</option>
-              {dict.categories.filter(c => c !== 'Todas' && c !== 'All').map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-            <select className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer">
-              <option value="">{lang === 'ES' ? 'Tipo' : 'Kind'}</option>
-              <option value="client">Client-Side</option>
-              <option value="local">Local RAM</option>
-            </select>
-            <select className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer">
-              <option value="recent">{lang === 'ES' ? 'Más recientes' : 'Recent'}</option>
-              <option value="likes">{lang === 'ES' ? 'Más votadas' : 'Top voted'}</option>
-            </select>
-            <label className="flex items-center gap-1.5 text-[13px] text-slate-600 dark:text-[#94a3b8] cursor-pointer">
-              <input type="checkbox" className="rounded border-slate-300 dark:border-[#1f2937]" /> 
-              <span>{lang === 'ES' ? 'Solo cliente' : 'Client only'}</span>
-            </label>
-            <button className="ml-auto bg-blue-600 hover:bg-blue-700 text-white font-medium text-[13px] px-3 py-2 rounded-lg cursor-pointer transition-colors">
-              {lang === 'ES' ? 'Sugerir Tool' : 'Suggest Tool'}
-            </button>
-          </div>
-
-          <p className="text-[0.75rem] tracking-[0.1em] uppercase text-slate-500 font-bold mb-4 border-b border-slate-300 dark:border-[#1f2937] pb-2">
-            {lang === 'ES' ? 'TODAS LAS HERRAMIENTAS' : 'ALL TOOLS'}
-          </p>
-          
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredTools.map((tool, idx) => {
-              const toolDict = dict.tools[tool.id as keyof typeof dict.tools];
-              const Icon = tool.icon;
-              const isFeatured = idx === 0; 
-              
-              return (
-                <button
-                  key={tool.id}
-                  onClick={() => setActiveTool(tool.id as ToolId)}
-                  className={`group flex items-start text-left bg-white dark:bg-[#11161d] border p-[22px] rounded-[18px] transition-all hover:border-blue-600 relative overflow-hidden ${isFeatured ? 'border-blue-500/50 dark:border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'border-slate-300 dark:border-[#1f2937]'}`}
-                >
-                  {isFeatured && <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-blue-500 shadow-[0_0_10px_#3b82f6]"></div>}
-                  
-                  <div className="w-10 h-10 shrink-0 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold text-[13px] tracking-wide relative">
-                    <Icon size={18} strokeWidth={2.5} />
+          {(searchQuery !== '' || (activeFilter !== 'Todas' && activeFilter !== 'All')) ? (
+            <>
+              <p className="text-xs tracking-wider uppercase text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
+                {lang === 'ES' ? 'RESULTADOS DE BÚSQUEDA' : 'SEARCH RESULTS'}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredTools.map((tool) => {
+                  const toolDict = dict.tools[tool.id as keyof typeof dict.tools];
+                  const Icon = tool.icon;
+                  return (
+                    <button
+                      key={tool.id}
+                      onClick={() => setActiveTool(tool.id as ToolId)}
+                      className="group flex items-start text-left bg-white dark:bg-[#11161d] border border-slate-200/80 dark:border-[#1f2937] p-[22px] rounded-[18px] transition-all hover:border-blue-500/50 shadow-sm relative overflow-hidden"
+                    >
+                      <div className="w-10 h-10 shrink-0 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold text-[13px] tracking-wide relative">
+                        <Icon size={18} strokeWidth={2.5} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-[1.05rem] font-bold text-slate-900 dark:text-[#f8fafc] tracking-[-0.02em] mb-1.5 truncate">
+                          {toolDict.name}
+                        </h3>
+                        <p className="text-[0.92rem] text-slate-600 dark:text-[#94a3b8] mb-3 line-clamp-2 leading-relaxed">
+                          {toolDict.desc}
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-auto">
+                          {tool.tags.map(tag => (
+                            <span key={tag} className="px-2 py-0.5 rounded-full text-[0.65rem] font-bold tracking-wider bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 uppercase">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+                {filteredTools.length === 0 && (
+                  <div className="col-span-full text-center py-12 text-slate-500 text-sm">
+                    {dict.noResults}
                   </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[1.05rem] font-bold text-slate-900 dark:text-[#f8fafc] tracking-[-0.02em] mb-1.5 truncate">
-                      {toolDict.name}
-                    </h3>
-                    <p className="text-[0.92rem] text-slate-600 dark:text-[#94a3b8] mb-3 line-clamp-2 leading-relaxed">
-                      {toolDict.desc}
-                    </p>
-                    
-                    <div className="flex flex-wrap items-center gap-2 mt-auto">
-                      {tool.tags.map(tag => (
-                        <span key={tag} className="px-2 py-0.5 text-[10px] font-bold tracking-[0.05em] text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/40 rounded-full uppercase">
-                          {tag}
-                        </span>
-                      ))}
-                      <span className="text-[11px] font-medium text-slate-500 ml-auto flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span> 
-                        v1.0
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-            {filteredTools.length === 0 && (
-              <div className="col-span-full text-center py-12 text-slate-500 text-sm">
-                {dict.noResults}
+                )}
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <div className="space-y-10">
+              {[
+                { title: lang === 'ES' ? 'IMAGEN Y MULTIMEDIA' : 'IMAGE AND MULTIMEDIA', tools: ['bg-remover', 'editor', 'converter', 'scanner', 'magnifier'] },
+                { title: lang === 'ES' ? 'DOCUMENTOS Y TEXTO' : 'DOCUMENTS AND TEXT', tools: ['pdf', 'signature', 'privacy', 'reader'] },
+                { title: lang === 'ES' ? 'INGENIERÍA, REDES Y DEV' : 'ENGINEERING, NETWORKS AND DEV', tools: ['network', 'json', 'uuid', 'epoch'] },
+                { title: lang === 'ES' ? 'SEGURIDAD Y WEB3' : 'SECURITY AND WEB3', tools: ['crypto', 'web3'] }
+              ].map(section => (
+                <div key={section.title}>
+                  <p className="text-xs tracking-wider uppercase text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
+                    {section.title}
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {section.tools.map(toolId => {
+                      const tool = tools.find(t => t.id === toolId);
+                      if (!tool) return null;
+                      const toolDict = dict.tools[tool.id as keyof typeof dict.tools];
+                      const Icon = tool.icon;
+                      return (
+                        <button
+                          key={tool.id}
+                          onClick={() => setActiveTool(tool.id as ToolId)}
+                          className="group flex items-start text-left bg-white dark:bg-[#11161d] border border-slate-200/80 dark:border-[#1f2937] p-[22px] rounded-[18px] transition-all hover:border-blue-500/50 shadow-sm relative overflow-hidden"
+                        >
+                          <div className="w-10 h-10 shrink-0 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold text-[13px] tracking-wide relative">
+                            <Icon size={18} strokeWidth={2.5} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-[1.05rem] font-bold text-slate-900 dark:text-[#f8fafc] tracking-[-0.02em] mb-1.5 truncate">
+                              {toolDict.name}
+                            </h3>
+                            <p className="text-[0.92rem] text-slate-600 dark:text-[#94a3b8] mb-3 line-clamp-2 leading-relaxed">
+                              {toolDict.desc}
+                            </p>
+                            <div className="flex items-center gap-1.5 mt-auto">
+                              {tool.tags.map(tag => (
+                                <span key={tag} className="px-2 py-0.5 rounded-full text-[0.65rem] font-bold tracking-wider bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 uppercase">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-6 pt-8 pb-16">
