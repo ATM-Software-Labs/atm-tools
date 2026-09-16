@@ -47,12 +47,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full h-16 bg-[#0a0e17]/90 dark:bg-[#0a0e17]/90 bg-white/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800 border-slate-200 flex items-center px-6">
       <a href="/" className="flex items-center gap-3 no-underline text-white hover:opacity-90 transition-opacity">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-600 dark:text-blue-500">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" />
-          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        <span className="font-semibold text-sm tracking-wide uppercase text-slate-900 dark:text-slate-100">ATM TOOLS</span>
+        <img src="/avatar.png" alt="" className="w-7 h-7 rounded-full border border-slate-700" width="28" height="28" />
+        <span className="text-[13.5px] font-extrabold tracking-[0.14em] uppercase text-slate-900 dark:text-[#f8fafc]">ATM TOOLS</span>
       </a>
       
       <div className="flex items-center gap-4 ml-auto">
@@ -91,9 +87,25 @@ export function Navbar() {
         <button 
           id="theme-toggle"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800/60 border border-slate-300 dark:border-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-300 dark:border-[#1f2937] text-slate-600 dark:text-[#94a3b8] transition-colors bg-transparent cursor-pointer"
         >
-          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === 'dark' ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          )}
         </button>
 
         <div className="h-5 w-px bg-slate-300 dark:bg-slate-800 mx-1"></div>
@@ -102,12 +114,12 @@ export function Navbar() {
         <div className="relative" ref={profileRef}>
           <button 
             onClick={() => setProfileOpen(!profileOpen)}
-            className="bg-blue-100 dark:bg-blue-600/20 hover:bg-blue-200 dark:hover:bg-blue-600/30 border border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-400 px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="flex items-center gap-2 bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] rounded-full pl-1 pr-3 py-1 cursor-pointer transition-colors hover:border-blue-500"
           >
-            <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-[9px] font-bold text-white uppercase">
-              AT
-            </div>
-            <span>Alberto</span>
+            <span className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[11px] font-bold text-white uppercase">
+              A
+            </span>
+            <span className="text-[13px] font-medium text-slate-900 dark:text-[#f8fafc]">Alberto</span>
           </button>
           
           {profileOpen && (

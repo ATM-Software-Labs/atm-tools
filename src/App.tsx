@@ -93,81 +93,103 @@ function App() {
       <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} onSelect={(id) => setActiveTool(id as ToolId)} tools={[...tools]} />
       {activeTool === 'home' ? (
         <div className="max-w-6xl mx-auto px-6 pt-10 pb-16">
-          <div className="mb-10">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-blue-500 mb-3 block">{dict.supra}</span>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-100 mb-3 tracking-tight">{dict.title}</h1>
-            <p className="text-slate-400 text-[15px]">{dict.subtitle}</p>
+          {/* Header trujillo-guides mirror */}
+          <div className="text-left pt-3 pb-7 bg-transparent border-0">
+            <p className="text-xs tracking-[0.12em] uppercase text-slate-500 font-semibold mb-3">{dict.supra}</p>
+            <h1 className="text-[2.2rem] leading-[1.1] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-slate-50 mb-4">{dict.title}</h1>
+            <p className="text-[1.1rem] leading-relaxed text-slate-600 dark:text-slate-400 max-w-[640px]">{dict.subtitle}</p>
           </div>
-          
-          {/* Search and Filters Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8 items-center bg-[#0f172a] border border-slate-800/80 p-2 rounded-xl">
-            <div className="relative w-full flex-1 flex items-center">
-              <Search className="absolute left-3.5 text-slate-500" size={16} />
+
+          {/* Controls Bar trujillo-guides mirror */}
+          <div className="block mb-5">
+            <label className="block w-full">
               <input 
-                type="text"
-                placeholder={dict.searchPlaceholder}
-                className="w-full bg-transparent pl-10 pr-12 py-2 text-sm text-slate-200 focus:outline-none placeholder:text-slate-500"
+                type="search" 
+                placeholder={dict.search}
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoComplete="off"
+                spellCheck="false"
+                className="w-full max-w-full bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-base px-4 py-3 rounded-xl shadow-sm focus:outline-none focus:border-blue-600 transition-colors"
               />
-              <button 
-                className="absolute right-2 flex items-center gap-1 text-[10px] font-mono bg-slate-800 text-slate-400 px-1.5 py-1 rounded hover:bg-slate-700 transition-colors"
-                onClick={() => setCmdOpen(true)}
-              >
-                <Command size={12} /> K
-              </button>
-            </div>
-            
-            <div className="w-px h-6 bg-slate-800 hidden md:block"></div>
-            
-            <div className="flex items-center gap-3 w-full md:w-auto px-2">
-              <div className="flex items-center gap-2 text-sm text-slate-400 shrink-0">
-                <Filter size={14} />
-                <span>{dict.filterBy}</span>
-              </div>
-              <div className="relative w-full md:w-40">
-                <select
-                  value={activeFilter}
-                  onChange={(e) => setActiveFilter(e.target.value as FilterCategory)}
-                  className="w-full appearance-none bg-slate-800/50 hover:bg-slate-800 border border-slate-700 text-sm text-slate-200 py-1.5 pl-3 pr-8 rounded-lg outline-none transition-colors cursor-pointer font-medium"
-                >
-                  {dict.categories.map((cat, i) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-              </div>
-            </div>
+            </label>
           </div>
+
+          <div className="flex flex-wrap items-center gap-3 mb-8">
+            <select 
+              className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer"
+              value={activeFilter} 
+              onChange={(e) => setActiveFilter(e.target.value as any)}
+            >
+              <option value={lang === 'ES' ? 'Todas' : 'All'}>{lang === 'ES' ? 'Todas' : 'All'}</option>
+              {dict.categories.filter(c => c !== 'Todas' && c !== 'All').map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+            <select className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer">
+              <option value="">{lang === 'ES' ? 'Tipo' : 'Kind'}</option>
+              <option value="client">Client-Side</option>
+              <option value="local">Local RAM</option>
+            </select>
+            <select className="bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-[13px] px-3 py-2 rounded-lg cursor-pointer">
+              <option value="recent">{lang === 'ES' ? 'Más recientes' : 'Recent'}</option>
+              <option value="likes">{lang === 'ES' ? 'Más votadas' : 'Top voted'}</option>
+            </select>
+            <label className="flex items-center gap-1.5 text-[13px] text-slate-600 dark:text-[#94a3b8] cursor-pointer">
+              <input type="checkbox" className="rounded border-slate-300 dark:border-[#1f2937]" /> 
+              <span>{lang === 'ES' ? 'Solo cliente' : 'Client only'}</span>
+            </label>
+            <button className="ml-auto bg-blue-600 hover:bg-blue-700 text-white font-medium text-[13px] px-3 py-2 rounded-lg cursor-pointer transition-colors">
+              {lang === 'ES' ? 'Sugerir Tool' : 'Suggest Tool'}
+            </button>
+          </div>
+
+          <p className="text-[0.75rem] tracking-[0.1em] uppercase text-slate-500 font-bold mb-4 border-b border-slate-300 dark:border-[#1f2937] pb-2">
+            {lang === 'ES' ? 'TODAS LAS HERRAMIENTAS' : 'ALL TOOLS'}
+          </p>
           
           {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredTools.map(tool => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredTools.map((tool, idx) => {
               const toolDict = dict.tools[tool.id as keyof typeof dict.tools];
+              const Icon = tool.icon;
+              const isFeatured = idx === 0; 
+              
               return (
-              <button
-                key={tool.id}
-                onClick={() => setActiveTool(tool.id as ToolId)}
-                className="flex flex-col p-5 bg-[#0f172a]/50 hover:bg-slate-900/40 border border-slate-800/80 hover:border-blue-500/50 rounded-xl transition-all duration-200 text-left group"
-              >
-                <div className="flex items-start gap-3 w-full">
-                  <div className="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-inner">
-                    <tool.icon size={20} />
+                <button
+                  key={tool.id}
+                  onClick={() => setActiveTool(tool.id as ToolId)}
+                  className={`group flex items-start text-left bg-white dark:bg-[#11161d] border p-[22px] rounded-[18px] transition-all hover:border-blue-600 relative overflow-hidden ${isFeatured ? 'border-blue-500/50 dark:border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'border-slate-300 dark:border-[#1f2937]'}`}
+                >
+                  {isFeatured && <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-blue-500 shadow-[0_0_10px_#3b82f6]"></div>}
+                  
+                  <div className="w-10 h-10 shrink-0 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold text-[13px] tracking-wide relative">
+                    <Icon size={18} strokeWidth={2.5} />
                   </div>
-                  <div className="flex flex-col flex-1 mt-0.5">
-                    <h2 className="text-[15px] font-semibold text-slate-200 group-hover:text-blue-400 transition-colors leading-tight mb-1.5">{toolDict.name}</h2>
-                    <div className="flex flex-wrap gap-1.5">
+                  
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[1.05rem] font-bold text-slate-900 dark:text-[#f8fafc] tracking-[-0.02em] mb-1.5 truncate">
+                      {toolDict.name}
+                    </h3>
+                    <p className="text-[0.92rem] text-slate-600 dark:text-[#94a3b8] mb-3 line-clamp-2 leading-relaxed">
+                      {toolDict.desc}
+                    </p>
+                    
+                    <div className="flex flex-wrap items-center gap-2 mt-auto">
                       {tool.tags.map(tag => (
-                         <span key={tag} className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50">
+                        <span key={tag} className="px-2 py-0.5 text-[10px] font-bold tracking-[0.05em] text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/40 rounded-full uppercase">
                           {tag}
                         </span>
                       ))}
+                      <span className="text-[11px] font-medium text-slate-500 ml-auto flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981]"></span> 
+                        v1.0
+                      </span>
                     </div>
                   </div>
-                </div>
-                <p className="text-xs text-slate-400 leading-relaxed mt-3">{toolDict.desc}</p>
-              </button>
-            )})}
+                </button>
+              );
+            })}
             {filteredTools.length === 0 && (
               <div className="col-span-full text-center py-12 text-slate-500 text-sm">
                 {dict.noResults}
