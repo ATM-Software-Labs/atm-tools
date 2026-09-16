@@ -2,21 +2,16 @@ import React from 'react';
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-[#1f2937] bg-[#030712] py-8 mt-auto">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500 max-w-[1200px]">
-        <div className="flex items-center gap-2 mb-4 md:mb-0">
-          <span>&copy; {new Date().getFullYear()} Alberto Trujillo Mingorance</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <a href="https://trujillomingorance.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">
-            ATM Labs
-          </a>
-          <span>&middot;</span>
-          <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">
-            ATM Docs
-          </a>
-        </div>
-      </div>
+    <footer className="w-full border-t border-slate-800 bg-[#0b1329] py-8 mt-auto flex flex-col items-center justify-center gap-4 text-sm text-slate-400 text-center">
+      <p>© 2026 ATM Software Labs. Todos los derechos reservados.</p>
+      <nav className="flex items-center gap-6 font-medium">
+        <a href="/" className="text-blue-500 hover:text-blue-400 transition-colors no-underline">
+          Índice
+        </a>
+        <a href="https://ai.trujillomingorance.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400 transition-colors no-underline">
+          Studio
+        </a>
+      </nav>
     </footer>
   );
 }
