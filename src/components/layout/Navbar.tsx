@@ -6,6 +6,7 @@ export function Navbar() {
   const { theme, setTheme, lang, setLang } = useAppConfig();
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
   const [storageSize, setStorageSize] = useState('0');
   const langRef = useRef<HTMLDivElement>(null);
 
@@ -76,9 +77,31 @@ export function Navbar() {
           </button>
           
           {langOpen && (
-            <div className="absolute top-full right-0 mt-2 w-24 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl overflow-hidden py-1">
-              <button onClick={() => { setLang('ES'); setLangOpen(false); }} className="w-full text-left px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">ES</button>
-              <button onClick={() => { setLang('EN'); setLangOpen(false); }} className="w-full text-left px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+            <div className="absolute top-full right-0 mt-2 w-32 bg-[#0f172a] border border-slate-800 rounded-lg py-1 shadow-xl z-50">
+              <button onClick={() => {
+                setLang('ES');
+                document.documentElement.lang = 'es';
+                localStorage.setItem('atm_lang', 'ES');
+                setLangOpen(false);
+              }} className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <span>🇪🇸</span> Español
+              </button>
+              <button onClick={() => {
+                setLang('EN');
+                document.documentElement.lang = 'en';
+                localStorage.setItem('atm_lang', 'EN');
+                setLangOpen(false);
+              }} className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <span>🇬🇧</span> English
+              </button>
+              <button onClick={() => {
+                setLang('CA');
+                document.documentElement.lang = 'ca';
+                localStorage.setItem('atm_lang', 'CA');
+                setLangOpen(false);
+              }} className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <span>🏴</span> Català
+              </button>
             </div>
           )}
         </div>
@@ -86,7 +109,21 @@ export function Navbar() {
         {/* Theme Toggle */}
         <button 
           id="theme-toggle"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={() => {
+            const html = document.documentElement;
+            let newTheme: 'dark' | 'light' = 'dark';
+            if (html.classList.contains('dark')) {
+              html.classList.remove('dark');
+              html.classList.add('light');
+              newTheme = 'light';
+            } else {
+              html.classList.add('dark');
+              html.classList.remove('light');
+              newTheme = 'dark';
+            }
+            localStorage.setItem('atm_theme', newTheme);
+            setTheme(newTheme);
+          }}
           className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-300 dark:border-[#1f2937] text-slate-600 dark:text-[#94a3b8] transition-colors bg-transparent cursor-pointer"
         >
           {theme === 'dark' ? (
@@ -117,53 +154,60 @@ export function Navbar() {
             className="flex items-center gap-2 bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] rounded-full pl-1 pr-3 py-1 cursor-pointer transition-colors hover:border-blue-500"
           >
             <span className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[11px] font-bold text-white uppercase">
-              A
+              {isGuest ? 'G' : 'A'}
             </span>
-            <span className="text-[13px] font-medium text-slate-900 dark:text-[#f8fafc]">Alberto</span>
+            <span className="text-[13px] font-medium text-slate-900 dark:text-[#f8fafc]">{isGuest ? 'Invitado' : 'Alberto'}</span>
           </button>
           
           {profileOpen && (
-            <div className="absolute top-full right-0 mt-2 w-64 bg-[#0f172a] border border-slate-800/80 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-md">
-              <div className="flex items-center gap-3 px-2 py-1">
-                <span className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white uppercase">
-                  AT
+            <div className="absolute top-full right-0 mt-2 w-60 bg-[#0b1329] border border-slate-800/80 rounded-xl p-3 shadow-2xl text-xs backdrop-blur-md z-50">
+              <div className="flex items-center gap-3">
+                <span className="bg-blue-600 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center">
+                  {isGuest ? 'GU' : 'AT'}
                 </span>
                 <div>
-                  <p className="font-medium text-sm text-white">Alberto Trujillo</p>
-                  <p className="text-xs text-slate-400">Plataforma & Dev</p>
+                  <p className="text-sm font-semibold text-white">{isGuest ? 'Usuario Invitado' : 'Alberto Trujillo'}</p>
+                  <p className="text-[11px] text-slate-400">{isGuest ? 'Sin sesión' : 'Plataforma & Dev'}</p>
                 </div>
               </div>
               
-              <div className="border-t border-slate-800/60 my-2"></div>
+              <div className="border-t border-slate-800/80 my-2.5"></div>
               
-              <div className="px-2 py-1 flex items-center justify-between">
+              <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-500"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-                  <span className="text-xs text-slate-400">Cache Local</span>
+                  <span className="text-slate-400">Almacenamiento Local</span>
                 </div>
-                <span className="font-mono text-xs text-blue-400">{storageSize} KB</span>
+                <span className="font-mono text-blue-400">{storageSize} KB</span>
               </div>
               
-              <div className="px-2 py-1">
-                <button 
-                  onClick={clearStorage}
-                  className="w-full text-left text-xs text-slate-400 hover:text-red-400 transition-colors py-1"
-                >
-                  Limpiar datos locales
-                </button>
-              </div>
+              <button 
+                onClick={clearStorage}
+                className="text-left w-full text-slate-400 hover:text-rose-400 transition-colors py-1 cursor-pointer"
+              >
+                Limpiar almacenamiento
+              </button>
 
-              <div className="border-t border-slate-800/60 my-2"></div>
+              <div className="border-t border-slate-800/80 my-2.5"></div>
               
-              <div className="flex flex-col gap-1">
-                <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-2 py-1.5 text-sm text-slate-300 hover:bg-slate-800/50 hover:text-white rounded-lg transition-colors">
+              <div className="flex flex-col">
+                <a href="https://guides.trujillomingorance.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white py-1 flex items-center justify-between">
                   <span>ATM DOCS</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-500"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>
                 <button 
-                  className="w-full text-left px-2 py-1.5 text-sm text-slate-300 hover:bg-slate-800/50 hover:text-white rounded-lg transition-colors"
+                  onClick={() => {
+                    if (!isGuest) {
+                      clearStorage();
+                      setIsGuest(true);
+                    } else {
+                      setIsGuest(false);
+                    }
+                    setProfileOpen(false);
+                  }}
+                  className="w-full text-left text-slate-300 hover:text-white py-1"
                 >
-                  Cerrar sesión / Modo Invitado
+                  {isGuest ? 'Iniciar sesión' : 'Cerrar sesión'}
                 </button>
               </div>
             </div>

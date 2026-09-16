@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Theme = 'dark' | 'light';
-type Lang = 'ES' | 'EN';
+type Lang = 'ES' | 'EN' | 'CA';
 
 interface AppContextType {
   theme: Theme;
@@ -21,7 +21,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const [lang, setLangState] = useState<Lang>(() => {
     const saved = localStorage.getItem('atm_lang');
-    if (saved === 'ES' || saved === 'EN') return saved;
+    if (saved === 'ES' || saved === 'EN' || saved === 'CA') return saved;
     return 'ES';
   });
 

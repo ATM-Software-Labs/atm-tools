@@ -50,5 +50,31 @@ export const i18n = {
       'uuid': { name: 'UUID Generator', desc: 'Generate secure UUIDv4 and Nanoid locally.' },
       'epoch': { name: 'Epoch Converter', desc: 'Convert Unix timestamps to readable dates.' }
     }
+  },
+  CA: {
+    supra: 'UTILITATS I EINES WEB',
+    title: 'Eines d\'enginyeria i privacitat',
+    subtitle: 'Processament 100% client-side sense persistència de dades ni telemetria externa.',
+    searchPlaceholder: 'Cercar eines...',
+    filterBy: 'Filtrar per:',
+    noResults: 'No s\'han trobat eines amb aquests criteris.',
+    categories: ['Totes', 'Imatge', 'PDF', 'Seguretat', 'Dades/Text', 'Web3'],
+    tools: {
+      'bg-remover': { name: 'Treure Fons', desc: 'Esborra el fons de qualsevol foto per deixar només la persona o objecte.' },
+      'editor': { name: 'Millorar Foto', desc: 'Dóna més llum, color o posa la teva foto en blanc i negre fàcilment.' },
+      'converter': { name: 'Canviar Format', desc: 'Prepara la teva foto per enviar-la reduint el seu pes.' },
+      'pdf': { name: 'Documents PDF', desc: 'Ajunta diversos documents en un de sol de manera senzilla.' },
+      'scanner': { name: 'Escanejar', desc: 'Fes una foto a un document i guarda\'l com a PDF.' },
+      'magnifier': { name: 'Lupa', desc: 'Apropa la lletra petita d\'una foto per llegir-la bé.' },
+      'signature': { name: 'Crear Signatura', desc: 'Signa amb el dit i guarda la teva signatura sense fons.' },
+      'privacy': { name: 'Amagar Dades', desc: 'Ratlla el DNI o cares d\'una foto abans d\'enviar-la.' },
+      'reader': { name: 'Llegir Text', desc: 'Enganxa un text llarg i l\'ordinador te\'l llegirà en veu alta.' },
+      'crypto': { name: 'Xifrar Dades', desc: 'Hashes, JWT, Passphrases i Base64.' },
+      'network': { name: 'Xarxes / CIDR', desc: 'Calculadora de subxarxes IPv4 i CIDR.' },
+      'json': { name: 'Format JSON', desc: 'Formatejador i minificador JSON ràpid.' },
+      'web3': { name: 'Eines Web3', desc: 'Decodificador de signatures, Keccak i conversor Wei.' },
+      'uuid': { name: 'Generador UUID', desc: 'Genera identificadors UUIDv4 i Nanoid segurs.' },
+      'epoch': { name: 'Conversor Epoch', desc: 'Converteix Unix Timestamps a dates llegibles.' }
+    }
   }
 };
