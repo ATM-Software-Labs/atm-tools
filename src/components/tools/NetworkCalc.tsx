@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Card, Button, Label } from '../ui';
 import { Network, ArrowLeft, Copy } from 'lucide-react';
 
 export function NetworkCalc({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [ipInput, setIpInput] = useState('192.168.1.0/24');
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState('');
@@ -63,16 +68,14 @@ export function NetworkCalc({ onBack }: { onBack: () => void }) {
     <div className="space-y-6 bg-[#0a0e17] border border-slate-800 rounded-2xl p-6 md:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white mb-2">Redes / SysAdmin</h2>
-          <p className="text-slate-400">Calculadora CIDR y Subnet IPv4.</p>
+          <h2 className="text-3xl font-bold text-white mb-2">{dict.tools['network'].name}</h2>
+          <p className="text-slate-400">{dict.tools['network'].desc}</p>
         </div>
         <button
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-sm font-medium whitespace-nowrap"
         >
-          <ArrowLeft size={18} />
-          Volver
-        </button>
+          <ArrowLeft size={18} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       <Card className="bg-slate-900/40 border-slate-800">

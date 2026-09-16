@@ -1,8 +1,13 @@
 import React, { useRef, useState, useCallback } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Camera, FileDown, ArrowLeft, RefreshCw } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 
 export function Scanner({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -82,16 +87,14 @@ export function Scanner({ onBack }: { onBack: () => void }) {
     <div className="bg-[#0f172a]/60 border border-slate-800 rounded-3xl p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-serif text-slate-100 mb-2">Escanear Documento</h2>
-          <p className="text-slate-400 text-lg">Haz una foto a un papel para guardarlo como PDF.</p>
+          <h2 className="text-3xl font-serif text-slate-100 mb-2">{dict.tools['scanner'].name}</h2>
+          <p className="text-slate-400 text-lg">{dict.tools['scanner'].desc}</p>
         </div>
         <button
           onClick={() => { stopCamera(); onBack(); }}
           className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-lg"
         >
-          <ArrowLeft size={24} />
-          Volver
-        </button>
+          <ArrowLeft size={24} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       <div className="flex flex-col items-center gap-6">

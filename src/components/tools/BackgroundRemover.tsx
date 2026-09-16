@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Card, Button } from '../ui';
 import { Download, Eraser, Upload, ArrowLeft } from 'lucide-react';
 import { processImageRemoval, downloadBlob } from '../../utils/image';
 
 export function BackgroundRemover({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>('');
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
@@ -68,7 +73,7 @@ export function BackgroundRemover({ onBack }: { onBack: () => void }) {
             >
               <Upload size={32} className="mr-3" /> Elegir una Foto
             </Button>
-            <p className="text-slate-500 text-lg mt-6">Haz clic en el botón azul para buscar la foto en tu dispositivo.</p>
+            <p className="text-slate-500 text-lg mt-6">{dict.tools['bg-remover'].desc}</p>
           </div>
         ) : (
           <div className="w-full flex flex-col items-center">

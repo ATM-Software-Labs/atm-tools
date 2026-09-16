@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Card, Button } from '../ui';
 import { Upload, Download, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 import { compressImageSmart } from '../../utils/compress';
 
 export function UniversalConverter({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);

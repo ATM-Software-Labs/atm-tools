@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Card, Button } from '../ui';
 import { Upload, Download, ArrowLeft, Sun, Palette, FlipHorizontal, Contrast } from 'lucide-react';
 import { applyImageEdits, downloadBlob } from '../../utils/image';
 
 export function QuickEditor({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   

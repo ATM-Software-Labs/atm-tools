@@ -1,9 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Card, Button } from '../ui';
 import { FileDown, FilePlus, ArrowLeft, FileText, Trash2 } from 'lucide-react';
 import { mergePdfs } from '../../utils/pdf';
 
 export function PdfManager({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 

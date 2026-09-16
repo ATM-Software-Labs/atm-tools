@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Shield, ArrowLeft, Upload, FileDown, RotateCcw } from 'lucide-react';
 
 export function PrivacyBlur({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [image, setImage] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -135,16 +140,14 @@ export function PrivacyBlur({ onBack }: { onBack: () => void }) {
     <div className="bg-[#0f172a]/60 border border-slate-800 rounded-3xl p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-serif text-slate-100 mb-2">Ocultar Datos</h2>
-          <p className="text-slate-400 text-lg">Tacha datos privados (DNI, tarjetas, caras) antes de enviar la foto.</p>
+          <h2 className="text-3xl font-serif text-slate-100 mb-2">{dict.tools['privacy'].name}</h2>
+          <p className="text-slate-400 text-lg">{dict.tools['privacy'].desc}</p>
         </div>
         <button
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-lg"
         >
-          <ArrowLeft size={24} />
-          Volver
-        </button>
+          <ArrowLeft size={24} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       {!image ? (

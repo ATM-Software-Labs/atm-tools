@@ -61,14 +61,26 @@ export function Navbar() {
             className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors text-sm font-medium"
           >
             <svg width="16" height="12" viewBox="0 0 640 480" className="rounded-sm">
-              <rect width="640" height="480" fill={lang === 'ES' ? "#c60b1e" : "#012169"} />
-              {lang === 'ES' && <rect width="640" height="240" y="120" fill="#ffc400" />}
+              {lang === 'ES' && (
+                <>
+                  <rect width="640" height="480" fill="#c60b1e" />
+                  <rect width="640" height="240" y="120" fill="#ffc400" />
+                </>
+              )}
               {lang === 'EN' && (
                 <>
+                  <rect width="640" height="480" fill="#012169" />
                   <path d="M0,0 L640,480 M640,0 L0,480" stroke="#fff" strokeWidth="60" />
                   <path d="M0,0 L640,480 M640,0 L0,480" stroke="#C8102E" strokeWidth="40" />
                   <path d="M320,0 L320,480 M0,240 L640,240" stroke="#fff" strokeWidth="120" />
                   <path d="M320,0 L320,480 M0,240 L640,240" stroke="#C8102E" strokeWidth="80" />
+                </>
+              )}
+              {lang === 'CA' && (
+                <>
+                  <rect width="640" height="480" fill="#fedf00" />
+                  <rect width="213.3" height="480" fill="#0018a8" />
+                  <rect x="426.7" width="213.3" height="480" fill="#d50032" />
                 </>
               )}
             </svg>

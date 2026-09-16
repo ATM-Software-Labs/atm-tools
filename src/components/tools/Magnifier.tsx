@@ -1,7 +1,12 @@
 import React, { useState, useRef } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Search, ArrowLeft, ZoomIn, ZoomOut, Upload } from 'lucide-react';
 
 export function Magnifier({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [image, setImage] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -22,16 +27,14 @@ export function Magnifier({ onBack }: { onBack: () => void }) {
     <div className="bg-[#0f172a]/60 border border-slate-800 rounded-3xl p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-serif text-slate-100 mb-2">Lupa de Fotos</h2>
-          <p className="text-slate-400 text-lg">Acerca la imagen para leer la letra pequeña sin esfuerzo.</p>
+          <h2 className="text-3xl font-serif text-slate-100 mb-2">{dict.tools['magnifier'].name}</h2>
+          <p className="text-slate-400 text-lg">{dict.tools['magnifier'].desc}</p>
         </div>
         <button
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-lg"
         >
-          <ArrowLeft size={24} />
-          Volver
-        </button>
+          <ArrowLeft size={24} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       {!image ? (

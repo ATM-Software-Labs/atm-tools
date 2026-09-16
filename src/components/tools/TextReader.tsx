@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { Volume2, VolumeX, ArrowLeft, Play, Square, Pause } from 'lucide-react';
 
 export function TextReader({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [text, setText] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -61,9 +66,9 @@ export function TextReader({ onBack }: { onBack: () => void }) {
     return (
       <div className="bg-[#0f172a]/60 border border-slate-800 rounded-3xl p-8 text-center">
         <VolumeX size={64} className="mx-auto text-rose-500 mb-6" />
-        <h2 className="text-3xl font-serif text-slate-100 mb-4">No Soportado</h2>
+        <h2 className="text-3xl font-serif text-slate-100 mb-4">{dict.tools['reader'].name}</h2>
         <p className="text-xl text-slate-400 mb-8">Lo sentimos, tu navegador no soporta la lectura de voz.</p>
-        <button onClick={onBack} className="px-8 py-4 rounded-2xl bg-slate-800 text-white text-xl">Volver</button>
+        <button onClick={onBack} className="px-8 py-4 rounded-2xl bg-slate-800 text-white text-xl">{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
     );
   }
@@ -73,15 +78,13 @@ export function TextReader({ onBack }: { onBack: () => void }) {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-3xl font-serif text-slate-100 mb-2">Lector de Textos</h2>
-          <p className="text-slate-400 text-lg">Pega un mensaje largo y el ordenador te lo leerá en voz alta.</p>
+          <p className="text-slate-400 text-lg">{dict.tools['reader'].desc}</p>
         </div>
         <button
           onClick={() => { handleStop(); onBack(); }}
           className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-lg"
         >
-          <ArrowLeft size={24} />
-          Volver
-        </button>
+          <ArrowLeft size={24} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       <div className="flex flex-col gap-6">

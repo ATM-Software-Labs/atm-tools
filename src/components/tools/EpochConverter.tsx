@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { ArrowLeft, Clock, Copy, ArrowRight, Calendar } from 'lucide-react';
 
 export function EpochConverter({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [currentEpoch, setCurrentEpoch] = useState(Math.floor(Date.now() / 1000));
   const [tsInput, setTsInput] = useState('');
   const [tsResult, setTsResult] = useState<Date | null>(null);
@@ -59,12 +64,12 @@ export function EpochConverter({ onBack }: { onBack: () => void }) {
         className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 cursor-pointer"
       >
         <ArrowLeft size={20} />
-        <span className="font-medium">Volver</span>
+        <span className="font-medium">{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</span>
       </button>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Conversor Epoch & Timestamp</h1>
-        <p className="text-slate-600 dark:text-slate-400">Herramienta local para conversión bidireccional entre Unix timestamps y fechas ISO.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{dict.tools['epoch'].name}</h1>
+        <p className="text-slate-600 dark:text-slate-400">{dict.tools['epoch'].desc}</p>
       </div>
 
       <div className="bg-white dark:bg-[#11161d] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm mb-8 flex items-center justify-between">

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { ArrowLeft, Copy, Check } from 'lucide-react';
 import { keccak256 } from 'js-sha3';
 import bs58 from 'bs58';
 
 export function Web3Tools({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
   const [activeTab, setActiveTab] = useState<'hash' | 'sig' | 'unit' | 'encode'>('hash');
 
   const [hashInput, setHashInput] = useState('');
@@ -97,12 +101,11 @@ export function Web3Tools({ onBack }: { onBack: () => void }) {
     <div className="space-y-6 bg-[#0a0e17] border border-slate-800 rounded-2xl p-6 md:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white mb-2">Web3 / Crypto</h2>
-          <p className="text-slate-400">Keccak, Units, Encoders client-side.</p>
+          <h2 className="text-3xl font-bold text-white mb-2">{dict.tools['web3'].name}</h2>
+          <p className="text-slate-400">{dict.tools['web3'].desc}</p>
         </div>
         <button onClick={onBack} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-sm font-medium">
-          <ArrowLeft size={18} /> Volver
-        </button>
+          <ArrowLeft size={18} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">

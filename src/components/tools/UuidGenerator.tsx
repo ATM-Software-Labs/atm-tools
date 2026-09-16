@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { ArrowLeft, Key, Download, Copy, Settings, RefreshCw } from 'lucide-react';
 
 type IdType = 'uuid' | 'nanoid';
 type BulkCount = 1 | 5 | 10 | 50;
 
 export function UuidGenerator({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const [idType, setIdType] = useState<IdType>('uuid');
   const [bulkCount, setBulkCount] = useState<BulkCount>(1);
   const [uppercase, setUppercase] = useState(false);
@@ -90,12 +95,12 @@ export function UuidGenerator({ onBack }: { onBack: () => void }) {
         className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 cursor-pointer"
       >
         <ArrowLeft size={20} />
-        <span className="font-medium">Volver</span>
+        <span className="font-medium">{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</span>
       </button>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Generador UUID & NanoID</h1>
-        <p className="text-slate-600 dark:text-slate-400">Generación de identificadores únicos criptográficamente seguros en cliente.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{dict.tools['uuid'].name}</h1>
+        <p className="text-slate-600 dark:text-slate-400">{dict.tools['uuid'].desc}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

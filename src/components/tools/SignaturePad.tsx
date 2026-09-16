@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useAppConfig } from '../../utils/useAppConfig';
+import { i18n } from '../../utils/i18n';
 import { PenTool, ArrowLeft, Trash2, FileDown, Save, Upload, CheckCircle2, Settings2, FileText, Stamp, Type, Move } from 'lucide-react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -29,6 +31,9 @@ type SignatureType = 'image' | 'digital-text';
 type InputMode = 'draw' | 'type';
 
 export function SignaturePad({ onBack }: { onBack: () => void }) {
+  const { lang } = useAppConfig();
+  const dict = i18n[lang];
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
@@ -443,8 +448,8 @@ export function SignaturePad({ onBack }: { onBack: () => void }) {
       <div className="bg-[#0f172a]/60 border border-slate-800 rounded-3xl p-6 md:p-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
-            <h2 className="text-3xl font-serif text-slate-100 mb-2">Colocar Firma</h2>
-            <p className="text-slate-400 text-lg">Arrastra la firma a donde quieras y ajusta su tamaño.</p>
+            <h2 className="text-3xl font-serif text-slate-100 mb-2">{dict.tools['signature'].name}</h2>
+            <p className="text-slate-400 text-lg">{dict.tools['signature'].desc}</p>
           </div>
           <button
             onClick={cancelPdfSigning}
@@ -564,9 +569,7 @@ export function SignaturePad({ onBack }: { onBack: () => void }) {
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-lg whitespace-nowrap"
         >
-          <ArrowLeft size={24} />
-          Volver
-        </button>
+          <ArrowLeft size={24} />{lang === 'ES' ? 'Volver' : lang === 'CA' ? 'Tornar' : 'Back'}</button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
