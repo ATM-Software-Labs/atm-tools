@@ -2,63 +2,65 @@ import React, { useState } from 'react';
 import { Layout } from './components/layout/Layout';
 import { UniversalConverter } from './components/tools/UniversalConverter';
 import { BackgroundRemover } from './components/tools/BackgroundRemover';
-import { MiniStudio } from './components/tools/MiniStudio';
+import { QuickEditor } from './components/tools/QuickEditor';
 import { PdfManager } from './components/tools/PdfManager';
-import { DataCrypto } from './components/tools/DataCrypto';
-import { Zap, Eraser, Palette, FileText, Code2 } from 'lucide-react';
+import { Image, Eraser, FileText, Sun } from 'lucide-react';
 import { cn } from './utils/cn';
 
-type Tool = 'converter' | 'bg-remover' | 'studio' | 'pdf' | 'data';
+type Tool = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf';
 
 function App() {
-  const [activeTool, setActiveTool] = useState<Tool>('converter');
+  const [activeTool, setActiveTool] = useState<Tool>('home');
 
   const tools = [
-    { id: 'converter', name: 'Smart Compress & Convert', icon: Zap, component: UniversalConverter, desc: 'Massive optimization engine' },
-    { id: 'bg-remover', name: 'AI Background Remover', icon: Eraser, component: BackgroundRemover, desc: 'Local neural network WASM' },
-    { id: 'studio', name: 'Mini Studio Editor', icon: Palette, component: MiniStudio, desc: 'Canvas-based design tool' },
-    { id: 'pdf', name: 'PDF Studio', icon: FileText, component: PdfManager, desc: 'Merge, split & rotate' },
-    { id: 'data', name: 'Data & Crypto', icon: Code2, component: DataCrypto, desc: 'Local dev & security tools' },
+    { id: 'bg-remover', name: 'Quitar Fondo', icon: Eraser, desc: 'Borra el fondo de cualquier foto para dejar solo a la persona u objeto.' },
+    { id: 'editor', name: 'Mejorar Foto', icon: Sun, desc: 'Dale más luz, más color o pon tu foto en blanco y negro fácilmente.' },
+    { id: 'converter', name: 'Cambiar Formato', icon: Image, desc: 'Prepara tu foto para enviarla reduciendo su peso.' },
+    { id: 'pdf', name: 'Documentos PDF', icon: FileText, desc: 'Junta varios documentos en uno solo de forma sencilla.' },
   ] as const;
 
-  const ActiveComponent = tools.find(t => t.id === activeTool)?.component || UniversalConverter;
+  const renderTool = () => {
+    switch (activeTool) {
+      case 'converter': return <UniversalConverter onBack={() => setActiveTool('home')} />;
+      case 'bg-remover': return <BackgroundRemover onBack={() => setActiveTool('home')} />;
+      case 'editor': return <QuickEditor onBack={() => setActiveTool('home')} />;
+      case 'pdf': return <PdfManager onBack={() => setActiveTool('home')} />;
+      default: return null;
+    }
+  };
 
   return (
     <Layout>
-      <div className="flex flex-col lg:flex-row gap-8 max-w-[1400px] mx-auto">
-        <aside className="w-full lg:w-72 shrink-0">
-          <div className="sticky top-24 bg-[#0f172a]/70 border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <h2 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 px-3 font-mono">Tools Suite</h2>
-            <nav className="flex flex-col gap-1.5">
-              {tools.map(tool => (
-                <button
-                  key={tool.id}
-                  onClick={() => setActiveTool(tool.id)}
-                  className={cn(
-                    "flex flex-col items-start px-4 py-3 rounded-xl transition-all text-left",
-                    activeTool === tool.id 
-                      ? "bg-sky-600/10 border border-sky-500/20 shadow-inner" 
-                      : "border border-transparent hover:bg-slate-800/50 hover:border-slate-700/50"
-                  )}
-                >
-                  <div className="flex items-center gap-3 mb-1">
-                    <tool.icon size={18} className={activeTool === tool.id ? "text-sky-400" : "text-slate-400"} />
-                    <span className={cn(
-                      "text-sm font-medium",
-                      activeTool === tool.id ? "text-sky-400" : "text-slate-200"
-                    )}>{tool.name}</span>
-                  </div>
-                  <span className="text-[10px] font-mono text-slate-500 ml-7">{tool.desc}</span>
-                </button>
-              ))}
-            </nav>
+      {activeTool === 'home' ? (
+        <div className="max-w-4xl mx-auto pt-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-serif text-slate-100 mb-4">Herramientas Sencillas</h1>
+            <p className="text-xl text-slate-400">¿Qué te gustaría hacer hoy? Haz clic en una opción.</p>
           </div>
-        </aside>
-        
-        <div className="flex-1 min-w-0">
-          <ActiveComponent />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {tools.map(tool => (
+              <button
+                key={tool.id}
+                onClick={() => setActiveTool(tool.id as Tool)}
+                className="flex items-start gap-6 p-8 bg-[#0f172a]/60 hover:bg-[#0f172a] border border-slate-800 rounded-3xl transition-all text-left group"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-sky-900/30 text-sky-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <tool.icon size={32} />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-medium text-slate-200 mb-2">{tool.name}</h2>
+                  <p className="text-slate-400 text-lg leading-relaxed">{tool.desc}</p>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="max-w-4xl mx-auto">
+          {renderTool()}
+        </div>
+      )}
     </Layout>
   );
 }
