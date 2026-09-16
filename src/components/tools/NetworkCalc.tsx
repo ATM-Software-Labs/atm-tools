@@ -45,6 +45,7 @@ export function NetworkCalc({ onBack }: { onBack: () => void }) {
       setResult({
         ip,
         mask: numToIp(maskNum),
+        wildcard: numToIp(~maskNum),
         network: numToIp(networkNum),
         broadcast: numToIp(broadcastNum),
         usableHosts,
@@ -59,7 +60,7 @@ export function NetworkCalc({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="space-y-6 bg-[#0b1329] border border-slate-800 rounded-2xl p-6 md:p-8">
+    <div className="space-y-6 bg-[#0a0e17] border border-slate-800 rounded-2xl p-6 md:p-8">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-white mb-2">Redes / SysAdmin</h2>
@@ -80,7 +81,7 @@ export function NetworkCalc({ onBack }: { onBack: () => void }) {
           <div className="flex gap-2">
             <input 
               type="text" 
-              className="flex-1 bg-[#0b1329] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300 focus:outline-none focus:border-blue-500"
+              className="flex-1 bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300 focus:outline-none focus:border-blue-500"
               value={ipInput}
               onChange={e => setIpInput(e.target.value)}
               placeholder="192.168.1.1/24"
@@ -93,27 +94,31 @@ export function NetworkCalc({ onBack }: { onBack: () => void }) {
 
         {result && (
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
               <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Network</span>
               <p className="font-mono text-lg text-white mt-1">{result.network}</p>
             </div>
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
               <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Netmask</span>
               <p className="font-mono text-lg text-white mt-1">{result.mask}</p>
             </div>
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
-              <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">First Usable Host</span>
-              <p className="font-mono text-lg text-blue-400 mt-1">{result.firstHost}</p>
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
+              <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Wildcard</span>
+              <p className="font-mono text-lg text-white mt-1">{result.wildcard}</p>
             </div>
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
-              <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Last Usable Host</span>
-              <p className="font-mono text-lg text-blue-400 mt-1">{result.lastHost}</p>
-            </div>
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
               <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Broadcast</span>
               <p className="font-mono text-lg text-white mt-1">{result.broadcast}</p>
             </div>
-            <div className="bg-[#0b1329] border border-slate-800 p-4 rounded-xl">
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
+              <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">First Usable Host</span>
+              <p className="font-mono text-lg text-blue-400 mt-1">{result.firstHost}</p>
+            </div>
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl">
+              <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Last Usable Host</span>
+              <p className="font-mono text-lg text-blue-400 mt-1">{result.lastHost}</p>
+            </div>
+            <div className="bg-[#0a0e17] border border-slate-800 p-4 rounded-xl sm:col-span-2">
               <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Usable Hosts / Total</span>
               <p className="font-mono text-lg text-white mt-1">{result.usableHosts} / {result.totalHosts}</p>
             </div>

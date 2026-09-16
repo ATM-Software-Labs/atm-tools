@@ -1,4 +1,19 @@
-export async function calculateHash(fileOrString: File | string, algorithm: 'SHA-256' | 'SHA-512'): Promise<string> {
+import { md5 } from './md5';
+
+export async function calculateHash(fileOrString: File | string, algorithm: 'SHA-256' | 'SHA-512' | 'MD5'): Promise<string> {
+  if (algorithm === 'MD5') {
+    if (typeof fileOrString === 'string') {
+      return md5(fileOrString);
+    } else {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(md5(reader.result as string));
+        reader.onerror = reject;
+        reader.readAsBinaryString(fileOrString);
+      });
+    }
+  }
+
   let buffer: BufferSource;
   
   if (typeof fileOrString === 'string') {

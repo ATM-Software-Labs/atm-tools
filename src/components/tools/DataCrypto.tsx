@@ -22,9 +22,12 @@ export function DataCrypto({ onBack }: { onBack: () => void }) {
   const [jwtHeader, setJwtHeader] = useState('');
   const [jwtPayload, setJwtPayload] = useState('');
 
-  // Passphrase state
-  const [passphrase, setPassphrase] = useState('');
-  const [wordsCount, setWordsCount] = useState(4);
+  // Password state
+  const [password, setPassword] = useState('');
+  const [passLength, setPassLength] = useState(16);
+  const [useUpper, setUseUpper] = useState(true);
+  const [useNumbers, setUseNumbers] = useState(true);
+  const [useSymbols, setUseSymbols] = useState(true);
 
   const handleBase64 = async () => {
     try {
@@ -54,18 +57,8 @@ export function DataCrypto({ onBack }: { onBack: () => void }) {
     try {
       const input = hashInputFile || hashInputText;
       if (!input) return;
-      if (hashAlgo === 'MD5') {
-        // Simple mock or use a library, since native crypto doesn't support MD5 easily.
-        // But for this requirement, we'll try to just show a mock or error if we don't have MD5.
-        // In Web Crypto API, MD5 is not supported via subtle crypto typically, we'll provide a placeholder or SHA-1 for now if needed.
-        setHashOutput('MD5 no está soportado nativamente sin librerías externas. Mostrando hash SHA-256 como fallback en esta demo.');
-        // Let's use SHA-256 as fallback to fix TypeScript TS2345 error.
-        const hash = await calculateHash(input, 'SHA-256');
-        setHashOutput(`[MD5 mock via SHA-256] ${hash}`);
-      } else {
-        const hash = await calculateHash(input, hashAlgo);
-        setHashOutput(hash);
-      }
+      const hash = await calculateHash(input, hashAlgo);
+      setHashOutput(hash);
     } catch (e: any) {
       setHashOutput(`Error: ${e.message}`);
     }
@@ -83,13 +76,27 @@ export function DataCrypto({ onBack }: { onBack: () => void }) {
     }
   };
 
-  const generatePassphrase = () => {
-    const wordlist = ["alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel", "india", "juliett", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "romeo", "sierra", "tango", "uniform", "victor", "whiskey", "xray", "yankee", "zulu", "ocean", "river", "mountain", "forest", "desert", "cloud", "storm", "sun", "moon", "star"];
-    let result = [];
-    for(let i=0; i<wordsCount; i++) {
-      result.push(wordlist[Math.floor(Math.random() * wordlist.length)]);
+  const generatePassword = () => {
+    const lower = 'abcdefghijklmnopqrstuvwxyz';
+    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const nums = '0123456789';
+    const syms = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+    
+    let chars = lower;
+    if (useUpper) chars += upper;
+    if (useNumbers) chars += nums;
+    if (useSymbols) chars += syms;
+    
+    if (chars.length === 0) chars = lower;
+
+    const array = new Uint32Array(passLength);
+    window.crypto.getRandomValues(array);
+    
+    let result = '';
+    for (let i = 0; i < passLength; i++) {
+      result += chars[array[i] % chars.length];
     }
-    setPassphrase(result.join('-'));
+    setPassword(result);
   };
 
   const copyToClipboard = (text: string) => {
@@ -144,25 +151,43 @@ export function DataCrypto({ onBack }: { onBack: () => void }) {
         {activeTab === 'passphrase' && (
           <div className="space-y-6 max-w-2xl">
             <div className="flex flex-col gap-4">
-              <Label>Número de Palabras</Label>
-              <input 
-                type="range" min="3" max="8" value={wordsCount} 
-                onChange={(e) => setWordsCount(parseInt(e.target.value))}
-                className="w-full accent-blue-500"
-              />
-              <span className="text-slate-400 text-sm">{wordsCount} palabras</span>
-              <Button onClick={generatePassphrase} className="w-full bg-blue-600 hover:bg-blue-500">Generar Passphrase</Button>
+              <Label>Longitud de la contraseña</Label>
+              <div className="flex items-center gap-4">
+                <input 
+                  type="range" min="8" max="64" value={passLength} 
+                  onChange={(e) => setPassLength(parseInt(e.target.value))}
+                  className="w-full accent-blue-500"
+                />
+                <span className="text-slate-400 text-sm font-mono w-12">{passLength}</span>
+              </div>
+              
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <input type="checkbox" checked={useUpper} onChange={e => setUseUpper(e.target.checked)} className="accent-blue-500" />
+                  Mayúsculas
+                </label>
+                <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <input type="checkbox" checked={useNumbers} onChange={e => setUseNumbers(e.target.checked)} className="accent-blue-500" />
+                  Números
+                </label>
+                <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <input type="checkbox" checked={useSymbols} onChange={e => setUseSymbols(e.target.checked)} className="accent-blue-500" />
+                  Símbolos
+                </label>
+              </div>
+
+              <Button onClick={generatePassword} className="w-full bg-blue-600 hover:bg-blue-500">Generar Contraseña</Button>
             </div>
-            {passphrase && (
+            {password && (
               <div className="space-y-2 pt-4 border-t border-slate-800">
                 <div className="flex justify-between items-center">
-                  <Label>Passphrase Generada</Label>
-                  <button className="text-slate-400 hover:text-slate-200" onClick={() => copyToClipboard(passphrase)} title="Copy">
+                  <Label>Contraseña Generada</Label>
+                  <button className="text-slate-400 hover:text-slate-200" onClick={() => copyToClipboard(password)} title="Copy">
                     <Copy size={16} />
                   </button>
                 </div>
-                <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-6 font-mono text-xl text-blue-400 text-center tracking-wider">
-                  {passphrase}
+                <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-6 font-mono text-xl text-blue-400 text-center tracking-wider break-all">
+                  {password}
                 </div>
               </div>
             )}
