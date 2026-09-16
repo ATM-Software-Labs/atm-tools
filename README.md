@@ -1,32 +1,36 @@
-# React + TypeScript + Vite
+# ATM Tools | TrujilloMingorance
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Una suite minimalista de herramientas 100% Client-Side. Construida sin dependencias de backend para garantizar privacidad, rendimiento y costo cero en infraestructura.
 
-Currently, two official plugins are available:
+## 🚀 Características
+- **Procesamiento Local:** Todas las operaciones (imágenes, PDF, IA) se realizan en el navegador del cliente.
+- **Privacidad Total:** Los archivos nunca abandonan tu dispositivo.
+- **Cero Costes de Servidor:** Desplegado como Cloudflare Worker / Pages, con 0 llamadas a backend.
+- **Diseño Inclusivo:** Interfaz adaptada para personas mayores, con alto contraste y usabilidad clara.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Herramientas Incluidas
+1. **Quitar Fondo (Background Remover):** Basado en WebAssembly, elimina fondos instantáneamente.
+2. **Mejorar Foto (Quick Editor):** Controles de brillo, saturación, y filtros preestablecidos.
+3. **Cambiar Formato (Converter):** Conversor rápido y redimensionador a JPG/WEBP para reducir peso.
+4. **Documentos PDF (Manager):** Fusión de múltiples imágenes en un único archivo PDF ligero.
 
-## React Compiler
+## 💻 Desarrollo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El ecosistema utiliza Vite + React + TypeScript + Tailwind CSS.
 
-## Expanding the Oxlint configuration
+```bash
+# Instalar dependencias
+npm install
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+# Iniciar servidor de desarrollo
+npm run dev
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+# Construir para producción
+npm run build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## 🌍 Arquitectura Edge
+
+Desplegado en **Cloudflare Workers** utilizando rutas específicas (`tools.trujillomingorance.com/*`) para bypassear reglas comodín (Wildcard) de la capa Edge superior del ecosistema.
+
+*© Alberto Trujillo Mingorance - ATM Software Labs*

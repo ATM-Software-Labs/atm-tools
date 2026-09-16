@@ -7,9 +7,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           {/* Logo Minimalista de Trujillo Mingorance */}
-          <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-[#0a0d14] font-serif font-bold text-xl">
-            TM
-          </div>
+          <img src="/avatar.png" alt="Trujillo Mingorance Logo" className="w-10 h-10 rounded-full border border-slate-700/50" />
           <div className="flex flex-col">
             <span className="font-serif text-2xl font-medium text-slate-100 tracking-wide">Trujillo Mingorance</span>
             <span className="text-sm text-sky-400 font-medium">Herramientas</span>
