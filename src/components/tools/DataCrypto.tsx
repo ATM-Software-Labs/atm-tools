@@ -58,10 +58,10 @@ export function DataCrypto({ onBack }: { onBack: () => void }) {
         // Simple mock or use a library, since native crypto doesn't support MD5 easily.
         // But for this requirement, we'll try to just show a mock or error if we don't have MD5.
         // In Web Crypto API, MD5 is not supported via subtle crypto typically, we'll provide a placeholder or SHA-1 for now if needed.
-        setHashOutput('MD5 not natively supported in WebCrypto without external lib, using SHA-1 as fallback internally or add spark-md5.');
-        // Let's use SHA-1 as fallback if MD5 is asked but not implemented in utils yet.
-        const hash = await calculateHash(input, 'SHA-1');
-        setHashOutput(`[MD5 mock via SHA-1] ${hash}`);
+        setHashOutput('MD5 no está soportado nativamente sin librerías externas. Mostrando hash SHA-256 como fallback en esta demo.');
+        // Let's use SHA-256 as fallback to fix TypeScript TS2345 error.
+        const hash = await calculateHash(input, 'SHA-256');
+        setHashOutput(`[MD5 mock via SHA-256] ${hash}`);
       } else {
         const hash = await calculateHash(input, hashAlgo);
         setHashOutput(hash);
