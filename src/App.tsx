@@ -13,6 +13,8 @@ import { DataCrypto } from './components/tools/DataCrypto';
 import { NetworkCalc } from './components/tools/NetworkCalc';
 import { JsonTools } from './components/tools/JsonTools';
 import { Web3Tools } from './components/tools/Web3Tools';
+import { UuidGenerator } from './components/tools/UuidGenerator';
+import { EpochConverter } from './components/tools/EpochConverter';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command, Bitcoin, Clock, Hash } from 'lucide-react';
 import { useAppConfig } from './utils/useAppConfig';
@@ -86,8 +88,8 @@ function App() {
       case 'crypto': return <DataCrypto onBack={() => setActiveTool('home')} />;
       case 'network': return <NetworkCalc onBack={() => setActiveTool('home')} />;
       case 'json': return <JsonTools onBack={() => setActiveTool('home')} />;
-      case 'uuid': return <div className="p-8 text-white"><button onClick={() => setActiveTool('home')} className="mb-4">Back</button><p>UUID Generator (Coming Soon)</p></div>;
-      case 'epoch': return <div className="p-8 text-white"><button onClick={() => setActiveTool('home')} className="mb-4">Back</button><p>Epoch Converter (Coming Soon)</p></div>;
+      case 'uuid': return <UuidGenerator onBack={() => setActiveTool('home')} />;
+      case 'epoch': return <EpochConverter onBack={() => setActiveTool('home')} />;
       case 'web3': return <Web3Tools onBack={() => setActiveTool('home')} />;
       default: return null;
     }
