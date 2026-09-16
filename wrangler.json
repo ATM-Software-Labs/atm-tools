@@ -7,5 +7,11 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "tools.trujillomingorance.com",
+      "custom_domain": true
+    }
+  ]
 }
