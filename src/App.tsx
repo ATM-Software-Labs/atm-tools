@@ -11,13 +11,14 @@ import { PrivacyBlur } from './components/tools/PrivacyBlur';
 import { TextReader } from './components/tools/TextReader';
 import { DataCrypto } from './components/tools/DataCrypto';
 import { NetworkCalc } from './components/tools/NetworkCalc';
+import { JsonTools } from './components/tools/JsonTools';
 import { Web3Tools } from './components/tools/Web3Tools';
 import { CommandPalette } from './components/ui/CommandPalette';
-import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command, Bitcoin } from 'lucide-react';
+import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command, Bitcoin, Clock, Hash } from 'lucide-react';
 import { useAppConfig } from './utils/useAppConfig';
 import { i18n } from './utils/i18n';
 
-type ToolId = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader' | 'crypto' | 'network' | 'json' | 'web3';
+type ToolId = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader' | 'crypto' | 'network' | 'json' | 'web3' | 'uuid' | 'epoch';
 type FilterCategory = 'Todas' | 'Imagen' | 'PDF' | 'Seguridad' | 'Datos/Texto' | 'Web3' | 'All' | 'Image' | 'Security' | 'Data/Text';
 
 function App() {
@@ -52,6 +53,8 @@ function App() {
     { id: 'crypto', icon: Key, tags: ['SEGURIDAD', 'CRYPTO'], category: 'Seguridad' },
     { id: 'network', icon: Network, tags: ['SYSADMIN', 'REDES'], category: 'Datos/Texto' },
     { id: 'json', icon: FileJson, tags: ['DEV', 'FORMAT'], category: 'Datos/Texto' },
+    { id: 'uuid', icon: Hash, tags: ['DEV', 'CLIENT-SIDE'], category: 'Datos/Texto' },
+    { id: 'epoch', icon: Clock, tags: ['DEV', 'CLIENT-SIDE'], category: 'Datos/Texto' },
     { id: 'web3', icon: Bitcoin, tags: ['WEB3', 'CRYPTO'], category: 'Web3' },
   ] as const;
 
@@ -83,6 +86,8 @@ function App() {
       case 'crypto': return <DataCrypto onBack={() => setActiveTool('home')} />;
       case 'network': return <NetworkCalc onBack={() => setActiveTool('home')} />;
       case 'json': return <JsonTools onBack={() => setActiveTool('home')} />;
+      case 'uuid': return <div className="p-8 text-white"><button onClick={() => setActiveTool('home')} className="mb-4">Back</button><p>UUID Generator (Coming Soon)</p></div>;
+      case 'epoch': return <div className="p-8 text-white"><button onClick={() => setActiveTool('home')} className="mb-4">Back</button><p>Epoch Converter (Coming Soon)</p></div>;
       case 'web3': return <Web3Tools onBack={() => setActiveTool('home')} />;
       default: return null;
     }
@@ -105,12 +110,12 @@ function App() {
             <label className="block w-full">
               <input 
                 type="search" 
-                placeholder={dict.search}
+                placeholder={dict.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoComplete="off"
                 spellCheck="false"
-                className="w-full max-w-full bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] text-base px-4 py-3 rounded-xl shadow-sm focus:outline-none focus:border-blue-600 transition-colors"
+                className="w-full max-w-full bg-white dark:bg-[#11161d] border border-slate-300 dark:border-[#1f2937] text-slate-900 dark:text-[#f8fafc] placeholder:text-slate-500 text-base px-4 py-3 rounded-xl shadow-sm focus:outline-none focus:border-blue-600 transition-colors"
               />
             </label>
           </div>

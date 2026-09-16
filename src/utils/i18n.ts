@@ -20,7 +20,9 @@ export const i18n = {
       'crypto': { name: 'Cifrar Datos', desc: 'Hashes, JWT, Passphrases y Base64.' },
       'network': { name: 'Redes / CIDR', desc: 'Calculadora de subredes IPv4 y CIDR.' },
       'json': { name: 'Formato JSON', desc: 'Formateador y minificador JSON rápido.' },
-      'web3': { name: 'Herramientas Web3', desc: 'Decodificador de firmas, Keccak y conversor Wei.' }
+      'web3': { name: 'Herramientas Web3', desc: 'Decodificador de firmas, Keccak y conversor Wei.' },
+      'uuid': { name: 'Generador UUID', desc: 'Genera identificadores UUIDv4 y Nanoid seguros.' },
+      'epoch': { name: 'Conversor Epoch', desc: 'Convierte Unix Timestamps a fechas legibles.' }
     }
   },
   EN: {
@@ -44,7 +46,9 @@ export const i18n = {
       'crypto': { name: 'Encrypt Data', desc: 'Hashes, JWT, Passphrases and Base64.' },
       'network': { name: 'Network / CIDR', desc: 'IPv4 Subnet and CIDR calculator.' },
       'json': { name: 'JSON Format', desc: 'Fast JSON formatter and minifier.' },
-      'web3': { name: 'Web3 Tools', desc: 'Signature decoder, Keccak and Wei converter.' }
+      'web3': { name: 'Web3 Tools', desc: 'Signature decoder, Keccak and Wei converter.' },
+      'uuid': { name: 'UUID Generator', desc: 'Generate secure UUIDv4 and Nanoid locally.' },
+      'epoch': { name: 'Epoch Converter', desc: 'Convert Unix timestamps to readable dates.' }
     }
   }
 };
