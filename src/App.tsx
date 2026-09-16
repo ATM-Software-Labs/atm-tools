@@ -7,10 +7,12 @@ import { PdfManager } from './components/tools/PdfManager';
 import { Scanner } from './components/tools/Scanner';
 import { Magnifier } from './components/tools/Magnifier';
 import { SignaturePad } from './components/tools/SignaturePad';
-import { Image, Eraser, FileText, Sun, Camera, Search, PenTool } from 'lucide-react';
+import { PrivacyBlur } from './components/tools/PrivacyBlur';
+import { TextReader } from './components/tools/TextReader';
+import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2 } from 'lucide-react';
 import { cn } from './utils/cn';
 
-type Tool = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature';
+type Tool = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader';
 
 function App() {
   const [activeTool, setActiveTool] = useState<Tool>('home');
@@ -23,6 +25,8 @@ function App() {
     { id: 'scanner', name: 'Escanear', icon: Camera, desc: 'Haz una foto a un documento y guárdalo como PDF.' },
     { id: 'magnifier', name: 'Lupa', icon: Search, desc: 'Acerca la letra pequeña de una foto para leerla bien.' },
     { id: 'signature', name: 'Crear Firma', icon: PenTool, desc: 'Firma con el dedo y guarda tu firma sin fondo.' },
+    { id: 'privacy', name: 'Ocultar Datos', icon: Shield, desc: 'Tacha el DNI o caras de una foto antes de enviarla.' },
+    { id: 'reader', name: 'Leer Texto', icon: Volume2, desc: 'Pega un texto largo y el ordenador te lo leerá en voz alta.' },
   ] as const;
 
   const renderTool = () => {
@@ -34,6 +38,8 @@ function App() {
       case 'scanner': return <Scanner onBack={() => setActiveTool('home')} />;
       case 'magnifier': return <Magnifier onBack={() => setActiveTool('home')} />;
       case 'signature': return <SignaturePad onBack={() => setActiveTool('home')} />;
+      case 'privacy': return <PrivacyBlur onBack={() => setActiveTool('home')} />;
+      case 'reader': return <TextReader onBack={() => setActiveTool('home')} />;
       default: return null;
     }
   };
