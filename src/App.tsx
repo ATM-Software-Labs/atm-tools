@@ -11,14 +11,14 @@ import { PrivacyBlur } from './components/tools/PrivacyBlur';
 import { TextReader } from './components/tools/TextReader';
 import { DataCrypto } from './components/tools/DataCrypto';
 import { NetworkCalc } from './components/tools/NetworkCalc';
-import { JsonTools } from './components/tools/JsonTools';
+import { Web3Tools } from './components/tools/Web3Tools';
 import { CommandPalette } from './components/ui/CommandPalette';
-import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command } from 'lucide-react';
+import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command, Bitcoin } from 'lucide-react';
 import { useAppConfig } from './utils/useAppConfig';
 import { i18n } from './utils/i18n';
 
-type ToolId = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader' | 'crypto' | 'network' | 'json';
-type FilterCategory = 'Todas' | 'Imagen' | 'PDF' | 'Seguridad' | 'Datos/Texto' | 'All' | 'Image' | 'Security' | 'Data/Text';
+type ToolId = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader' | 'crypto' | 'network' | 'json' | 'web3';
+type FilterCategory = 'Todas' | 'Imagen' | 'PDF' | 'Seguridad' | 'Datos/Texto' | 'Web3' | 'All' | 'Image' | 'Security' | 'Data/Text';
 
 function App() {
   const [activeTool, setActiveTool] = useState<ToolId>('home');
@@ -52,6 +52,7 @@ function App() {
     { id: 'crypto', icon: Key, tags: ['SEGURIDAD', 'CRYPTO'], category: 'Seguridad' },
     { id: 'network', icon: Network, tags: ['SYSADMIN', 'REDES'], category: 'Datos/Texto' },
     { id: 'json', icon: FileJson, tags: ['DEV', 'FORMAT'], category: 'Datos/Texto' },
+    { id: 'web3', icon: Bitcoin, tags: ['WEB3', 'CRYPTO'], category: 'Web3' },
   ] as const;
 
   const filteredTools = useMemo(() => {
@@ -62,7 +63,7 @@ function App() {
       
       const isAll = activeFilter === 'Todas' || activeFilter === 'All';
       // simple hack for bi-lingual categories matching
-      const catMatch = isAll || tool.category === activeFilter || dict.categories[i18n['ES'].categories.indexOf(tool.category)] === activeFilter;
+      const catMatch = isAll || tool.category === activeFilter || (i18n['ES'].categories.indexOf(tool.category) > -1 && dict.categories[i18n['ES'].categories.indexOf(tool.category)] === activeFilter);
       
       return matchesSearch && catMatch;
     });
@@ -82,6 +83,7 @@ function App() {
       case 'crypto': return <DataCrypto onBack={() => setActiveTool('home')} />;
       case 'network': return <NetworkCalc onBack={() => setActiveTool('home')} />;
       case 'json': return <JsonTools onBack={() => setActiveTool('home')} />;
+      case 'web3': return <Web3Tools onBack={() => setActiveTool('home')} />;
       default: return null;
     }
   };
