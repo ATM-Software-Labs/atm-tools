@@ -31,6 +31,7 @@ export default defineConfig({
         ]
       },
       workbox: {
+        maximumFileSizeToCacheInBytes: 30000000,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -70,10 +71,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'lucide-react'],
-          pdf: ['pdf-lib', 'pdfjs-dist'],
-          img: ['browser-image-compression']
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('lucide')) return 'vendor';
+            if (id.includes('pdf')) return 'pdf';
+            if (id.includes('browser-image-compression')) return 'img';
+          }
         }
       }
     }

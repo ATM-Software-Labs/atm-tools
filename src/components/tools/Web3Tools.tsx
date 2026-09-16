@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Copy, Check } from 'lucide-react';
-import { Card } from '../ui/Card';
-import { Label } from '../ui/Label';
-import { Button } from '../ui/Button';
 import { keccak256 } from 'js-sha3';
 import bs58 from 'bs58';
 
 export function Web3Tools({ onBack }: { onBack: () => void }) {
   const [activeTab, setActiveTab] = useState<'hash' | 'sig' | 'unit' | 'encode'>('hash');
 
-  // Keccak
   const [hashInput, setHashInput] = useState('');
   const [keccakOut, setKeccakOut] = useState('');
   
-  // Units
   const [wei, setWei] = useState('');
   const [gwei, setGwei] = useState('');
   const [ether, setEther] = useState('');
 
-  // Encode/Decode
   const [encInput, setEncInput] = useState('');
   const [encFormat, setEncFormat] = useState<'utf8' | 'hex' | 'base64'>('utf8');
   const [decFormat, setDecFormat] = useState<'hex' | 'base64'>('hex');
   const [encOutput, setEncOutput] = useState('');
   
-  // Addrs / Sigs
   const [addrInput, setAddrInput] = useState('');
   const [addrType, setAddrType] = useState('');
 
@@ -131,12 +124,12 @@ export function Web3Tools({ onBack }: { onBack: () => void }) {
         ))}
       </div>
 
-      <Card className="bg-slate-900/40 border-slate-800">
+      <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-6">
         {activeTab === 'hash' && (
           <div className="space-y-4">
-            <Label>Input (Text or 0x Hex)</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Input (Text or 0x Hex)</label>
             <input type="text" className="w-full bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={hashInput} onChange={e => setHashInput(e.target.value)} />
-            <Button onClick={handleHash} className="bg-blue-600 hover:bg-blue-500">Hash Keccak-256</Button>
+            <button onClick={handleHash} className="px-4 py-2 rounded-lg font-medium transition-colors text-white text-sm bg-blue-600 hover:bg-blue-500">Hash Keccak-256</button>
             {keccakOut && (
               <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-lg font-mono text-blue-400 break-all cursor-pointer" onClick={() => copyToClipboard(keccakOut)}>
                 {keccakOut}
@@ -147,20 +140,20 @@ export function Web3Tools({ onBack }: { onBack: () => void }) {
 
         {activeTab === 'unit' && (
           <div className="space-y-4">
-            <Label>Wei</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Wei</label>
             <input type="number" className="w-full bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={wei} onChange={e => { setWei(e.target.value); updateUnits(e.target.value, 'wei'); }} />
-            <Label>Gwei</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Gwei</label>
             <input type="number" step="any" className="w-full bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={gwei} onChange={e => { setGwei(e.target.value); updateUnits(e.target.value, 'gwei'); }} />
-            <Label>Ether / SOL</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Ether / SOL</label>
             <input type="number" step="any" className="w-full bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={ether} onChange={e => { setEther(e.target.value); updateUnits(e.target.value, 'ether'); }} />
           </div>
         )}
 
         {activeTab === 'sig' && (
           <div className="space-y-4">
-            <Label>Address (EVM / Solana)</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Address (EVM / Solana)</label>
             <input type="text" className="w-full bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={addrInput} onChange={e => setAddrInput(e.target.value)} />
-            <Button onClick={checkAddress} className="bg-blue-600 hover:bg-blue-500">Validate</Button>
+            <button onClick={checkAddress} className="px-4 py-2 rounded-lg font-medium transition-colors text-white text-sm bg-blue-600 hover:bg-blue-500">Validate</button>
             {addrType && (
               <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-lg font-mono text-blue-400">
                 {addrType}
@@ -171,10 +164,10 @@ export function Web3Tools({ onBack }: { onBack: () => void }) {
 
         {activeTab === 'encode' && (
           <div className="space-y-4">
-            <Label>Text Input</Label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Text Input</label>
             <textarea className="w-full h-32 bg-[#0a0e17] border border-slate-800 rounded-lg p-3 text-sm font-mono text-slate-300" value={encInput} onChange={e => setEncInput(e.target.value)} />
             <div className="flex gap-4">
-              <Button onClick={handleEncode} className="bg-blue-600 hover:bg-blue-500">Encode to {decFormat}</Button>
+              <button onClick={handleEncode} className="px-4 py-2 rounded-lg font-medium transition-colors text-white text-sm bg-blue-600 hover:bg-blue-500">Encode to {decFormat}</button>
               <select className="bg-slate-800 border-slate-700 text-slate-300 rounded px-2" value={decFormat} onChange={e => setDecFormat(e.target.value as any)}>
                 <option value="hex">Hex</option>
                 <option value="base64">Base64</option>
@@ -185,7 +178,7 @@ export function Web3Tools({ onBack }: { onBack: () => void }) {
             )}
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }
