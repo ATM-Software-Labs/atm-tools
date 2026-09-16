@@ -99,8 +99,8 @@ export function Navbar() {
                 document.documentElement.lang = 'ca';
                 localStorage.setItem('atm_lang', 'CA');
                 setLangOpen(false);
-              }} className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <span>🏴</span> Català
+              }} className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">
+                <span>🇦🇩</span> Català
               </button>
             </div>
           )}
