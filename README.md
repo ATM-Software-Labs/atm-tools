@@ -1,6 +1,6 @@
 # ATM Tools - Engineering Suite
 
-> Herramientas de ingeniería y privacidad de ATM Software Labs.
+> Herramientas de ingeniería y privacidad de Your Organization.
 > Procesamiento 100% client-side sin persistencia de datos ni telemetría externa.
 
 ## Arquitectura Técnica
@@ -35,4 +35,5 @@ pnpm run build
 ## Garantía de Privacidad
 Todos los procesos criptográficos, conversores y procesamientos multimedia de ATM TOOLS operan **exclusivamente en memoria** dentro del hilo principal o Worker del navegador. En ningún caso se envían payloads, imágenes, credenciales o direcciones Web3 a servidores externos.
 
-*© 2026 ATM Software Labs. Todos los derechos reservados.*
+*© 2026 Your Organization. Todos los derechos reservados.*
+
