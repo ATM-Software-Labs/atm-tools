@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'avatar.png'],
+      includeAssets: ['favicon.ico', 'favicon.svg', 'favicon-32.png', 'apple-touch-icon.png', 'avatar.png'],
       manifest: {
         name: 'ATM Tools - Engineering Suite',
         short_name: 'ATM Tools',
@@ -17,13 +17,13 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: '/avatar.png',
+            src: '/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: '/avatar.png',
+            src: '/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
