@@ -1,24 +1,26 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { Layout } from './components/layout/Layout';
-import { UniversalConverter } from './components/tools/UniversalConverter';
-import { BackgroundRemover } from './components/tools/BackgroundRemover';
-import { QuickEditor } from './components/tools/QuickEditor';
-import { PdfManager } from './components/tools/PdfManager';
-import { Scanner } from './components/tools/Scanner';
-import { Magnifier } from './components/tools/Magnifier';
-import { SignaturePad } from './components/tools/SignaturePad';
-import { PrivacyBlur } from './components/tools/PrivacyBlur';
-import { TextReader } from './components/tools/TextReader';
-import { DataCrypto } from './components/tools/DataCrypto';
-import { NetworkCalc } from './components/tools/NetworkCalc';
-import { JsonTools } from './components/tools/JsonTools';
-import { Web3Tools } from './components/tools/Web3Tools';
-import { UuidGenerator } from './components/tools/UuidGenerator';
-import { EpochConverter } from './components/tools/EpochConverter';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { Image, Eraser, FileText, Sun, Camera, Search, PenTool, Shield, Volume2, Key, Network, FileJson, ChevronDown, Filter, Command, Bitcoin, Clock, Hash } from 'lucide-react';
 import { useAppConfig } from './utils/useAppConfig';
 import { i18n } from './utils/i18n';
+
+// Tools are code-split so the home page only downloads what it renders.
+const UniversalConverter = lazy(() => import('./components/tools/UniversalConverter').then((m) => ({ default: m.UniversalConverter })));
+const BackgroundRemover = lazy(() => import('./components/tools/BackgroundRemover').then((m) => ({ default: m.BackgroundRemover })));
+const QuickEditor = lazy(() => import('./components/tools/QuickEditor').then((m) => ({ default: m.QuickEditor })));
+const PdfManager = lazy(() => import('./components/tools/PdfManager').then((m) => ({ default: m.PdfManager })));
+const Scanner = lazy(() => import('./components/tools/Scanner').then((m) => ({ default: m.Scanner })));
+const Magnifier = lazy(() => import('./components/tools/Magnifier').then((m) => ({ default: m.Magnifier })));
+const SignaturePad = lazy(() => import('./components/tools/SignaturePad').then((m) => ({ default: m.SignaturePad })));
+const PrivacyBlur = lazy(() => import('./components/tools/PrivacyBlur').then((m) => ({ default: m.PrivacyBlur })));
+const TextReader = lazy(() => import('./components/tools/TextReader').then((m) => ({ default: m.TextReader })));
+const DataCrypto = lazy(() => import('./components/tools/DataCrypto').then((m) => ({ default: m.DataCrypto })));
+const NetworkCalc = lazy(() => import('./components/tools/NetworkCalc').then((m) => ({ default: m.NetworkCalc })));
+const JsonTools = lazy(() => import('./components/tools/JsonTools').then((m) => ({ default: m.JsonTools })));
+const Web3Tools = lazy(() => import('./components/tools/Web3Tools').then((m) => ({ default: m.Web3Tools })));
+const UuidGenerator = lazy(() => import('./components/tools/UuidGenerator').then((m) => ({ default: m.UuidGenerator })));
+const EpochConverter = lazy(() => import('./components/tools/EpochConverter').then((m) => ({ default: m.EpochConverter })));
 
 type ToolId = 'home' | 'converter' | 'bg-remover' | 'editor' | 'pdf' | 'scanner' | 'magnifier' | 'signature' | 'privacy' | 'reader' | 'crypto' | 'network' | 'json' | 'web3' | 'uuid' | 'epoch';
 type FilterCategory = 'Todas' | 'Imagen' | 'PDF' | 'Seguridad' | 'Datos/Texto' | 'Web3' | 'All' | 'Image' | 'Security' | 'Data/Text';
@@ -124,9 +126,9 @@ function App() {
 
           {(searchQuery !== '' || (activeFilter !== 'Todas' && activeFilter !== 'All')) ? (
             <>
-              <p className="text-xs tracking-wider uppercase text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
+              <h2 className="text-xs tracking-wider uppercase text-slate-600 dark:text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
                 {lang === 'ES' ? 'RESULTADOS DE BÚSQUEDA' : 'SEARCH RESULTS'}
-              </p>
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredTools.map((tool) => {
                   const toolDict = dict.tools[tool.id as keyof typeof dict.tools];
@@ -174,9 +176,9 @@ function App() {
                 { title: lang === 'ES' ? 'SEGURIDAD Y WEB3' : 'SECURITY AND WEB3', tools: ['crypto', 'web3'] }
               ].map(section => (
                 <div key={section.title}>
-                  <p className="text-xs tracking-wider uppercase text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
+                  <h2 className="text-xs tracking-wider uppercase text-slate-600 dark:text-slate-400 font-bold mb-4 border-b border-slate-200 dark:border-slate-800/60 pb-2">
                     {section.title}
-                  </p>
+                  </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {section.tools.map(toolId => {
                       const tool = tools.find(t => t.id === toolId);
@@ -218,7 +220,7 @@ function App() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto px-6 pt-8 pb-16">
-          {renderTool()}
+          <Suspense fallback={<div className="py-24 text-center text-slate-600 dark:text-slate-400" role="status">…</div>}>{renderTool()}</Suspense>
         </div>
       )}
     </Layout>

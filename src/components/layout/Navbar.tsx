@@ -121,6 +121,9 @@ export function Navbar() {
         {/* Theme Toggle */}
         <button 
           id="theme-toggle"
+          type="button"
+          aria-label={lang === 'EN' ? 'Toggle light/dark theme' : lang === 'CA' ? 'Canviar tema clar/fosc' : 'Cambiar tema claro/oscuro'}
+          title={lang === 'EN' ? 'Toggle light/dark theme' : lang === 'CA' ? 'Canviar tema clar/fosc' : 'Cambiar tema claro/oscuro'}
           onClick={() => {
             const html = document.documentElement;
             let newTheme: 'dark' | 'light' = 'dark';

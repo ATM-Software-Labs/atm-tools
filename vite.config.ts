@@ -56,8 +56,6 @@ export default defineConfig({
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
             if (id.includes('react') || id.includes('lucide')) return 'vendor';
-            if (id.includes('pdf')) return 'pdf';
-            if (id.includes('browser-image-compression')) return 'img';
           }
         }
       }
